@@ -1,0 +1,31 @@
+Date : 2020-04-03 20:42:51
+Directory : c:\xampp\htdocs\lumen\kamera-teman\app\Http\Controllers
+Total : 7 files,  369 codes, 100 comments, 116 blanks, all 585 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| PHP      |          7 |        369 |        100 |        116 |        585 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                          | files      | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                             |          7 |        369 |        100 |        116 |        585 |
++-------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++-------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                                      | language | code       | comment    | blank      | total      |
++-------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
+| c:\xampp\htdocs\lumen\kamera-teman\app\Http\Controllers\AdminController.php   | PHP      |         59 |         11 |         17 |         87 |
+| c:\xampp\htdocs\lumen\kamera-teman\app\Http\Controllers\AuthController.php    | PHP      |         60 |          7 |         17 |         84 |
+| c:\xampp\htdocs\lumen\kamera-teman\app\Http\Controllers\BarangController.php  | PHP      |         55 |         11 |         18 |         84 |
+| c:\xampp\htdocs\lumen\kamera-teman\app\Http\Controllers\Controller.php        | PHP      |          6 |          1 |          4 |         11 |
+| c:\xampp\htdocs\lumen\kamera-teman\app\Http\Controllers\ExampleController.php | PHP      |          8 |          7 |          4 |         19 |
+| c:\xampp\htdocs\lumen\kamera-teman\app\Http\Controllers\MemberController.php  | PHP      |        128 |         50 |         42 |        220 |
+| c:\xampp\htdocs\lumen\kamera-teman\app\Http\Controllers\RiwayatController.php | PHP      |         53 |         13 |         14 |         80 |
+| Total                                                                         |          |        369 |        100 |        116 |        585 |
++-------------------------------------------------------------------------------+----------+------------+------------+------------+------------+
