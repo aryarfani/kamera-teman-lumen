@@ -25,18 +25,27 @@ class BarangController extends Controller
   //* Fungsi menambah data
   public function create(Request $request)
   {
+    $this->validate($request, [
+      'nama' => 'required',
+      'stock' => 'required',
+      'harga' => 'required',
+      'gambar' => 'required',
+    ]);
+
     // Menambah gambar
     $image = $request->file('gambar');
 
     $new_name = rand() . '.' . $image->getClientOriginalExtension();
-    $image->move(base_path('public/images'), $new_name);
+    $image->move(base_path('public_html/images'), $new_name);
 
     $barang = new Barang();
     $barang->nama = $request->nama;
     $barang->stock = $request->stock;
     $barang->harga = $request->harga;
-    $barang->gambar = $new_name;
 
+    $gambar = url('images') . '/' . $new_name;
+
+    $barang->gambar = $gambar;
     $barang->save();
 
     return response()->json($barang);
@@ -57,11 +66,12 @@ class BarangController extends Controller
     } else {
       //* Jika ada query gambar maka akan diganti
       $image = $request->file('gambar');
-      
+
       $new_name = rand() . '.' . $image->getClientOriginalExtension();
       $image->move(base_path('public_html/images'), $new_name);
-      
-      $barang->gambar = $new_name;
+      $gambar = url('images') . '/' . $new_name;
+
+      $barang->gambar = $gambar;
     }
 
     $barang->save();
@@ -79,5 +89,4 @@ class BarangController extends Controller
       return response()->json($barang);
     }
   }
-
 }

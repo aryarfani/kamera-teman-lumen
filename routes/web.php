@@ -29,7 +29,7 @@ $router->group(['prefix' => 'api'], function () use ($router) {
     $router->post('/member', 'MemberController@create');
     $router->post('/member/{id}', 'MemberController@update');
     $router->delete('/member/{id}', 'MemberController@destroy');
-    $router->post('/saveTokenMember/{id}', 'MemberController@saveToken');
+    $router->post('/member/{id}/token', 'MemberController@saveToken');
 
     // barang route
     $router->get('/barang', 'BarangController@index');
@@ -40,31 +40,30 @@ $router->group(['prefix' => 'api'], function () use ($router) {
 
     // keranjang route
     $router->get('/keranjang/{id}', 'MemberController@showBarangKeranjang');
-    $router->post('/tambahBarangKeranjang/{id}', 'MemberController@tambahBarangKeranjang');
-    $router->post('/hapusBarangKeranjang/{id}', 'MemberController@hapusBarangKeranjang');
-    $router->get('/jumlahHargaKeranjang/{id}', 'MemberController@jumlahHargaKeranjang');
-    $router->get('/jumlahBarangKeranjang/{id}', 'MemberController@jumlahBarangKeranjang');
+    $router->post('/keranjang/{id}', 'MemberController@tambahBarangKeranjang');
+    $router->post('/keranjang/{id}/delete', 'MemberController@hapusBarangKeranjang');
+    $router->get('/keranjang/{id}/harga', 'MemberController@jumlahHargaKeranjang');
+    $router->post('/keranjang/{id}/checkout', 'MemberController@checkOutPesanan');
 
     // riwayat route for client
-    $router->post('/checkOutPesanan/{id}', 'MemberController@checkOutPesanan');
-    $router->get('/getAllMemberRiwayat/{id}', 'MemberController@getAllMemberRiwayat');
-    $router->get('/getUncofirmedMemberRiwayat/{id}', 'MemberController@getUncofirmedMemberRiwayat');
-    $router->get('/getBorrowedMemberRiwayat/{id}', 'MemberController@getBorrowedMemberRiwayat');
-    $router->get('/getDoneAndCancelledMemberRiwayat/{id}', 'MemberController@getDoneAndCancelledMemberRiwayat');
+    $router->get('/riwayat/{id}', 'MemberController@getAllMemberRiwayat');
+    $router->get('/riwayat/{id}/uncofirmed', 'MemberController@getUncofirmedMemberRiwayat');
+    $router->get('/riwayat/{id}/borrowed', 'MemberController@getBorrowedMemberRiwayat');
+    $router->get('/riwayat/{id}/doneandcancelled', 'MemberController@getDoneAndCancelledMemberRiwayat');
 
     // riwayat route for admin
-    $router->get('/getAllRiwayat/', 'RiwayatController@getAllRiwayat');
-    $router->get('/getUnconfirmedRiwayat/', 'RiwayatController@getUnconfirmedRiwayat');
-    $router->get('/getBorrowedRiwayat/', 'RiwayatController@getBorrowedRiwayat');
-    $router->get('/confirmBarang/{id}', 'RiwayatController@confirmBarang');
-    $router->get('/cancelBarang/{id}', 'RiwayatController@cancelBarang');
+    $router->get('/riwayat', 'RiwayatController@getAllRiwayat');
+    $router->get('/unconfirmed-riwayat', 'RiwayatController@getUnconfirmedRiwayat');
+    $router->get('/borrowed-riwayat', 'RiwayatController@getBorrowedRiwayat');
+    $router->get('/barang/{id}/confirm', 'RiwayatController@confirmBarang');
+    $router->get('/barang/{id}/cancel', 'RiwayatController@cancelBarang');
 
     // chat route
-    $router->get('/getConversationByUserId/{id}', 'ChatController@getConversationByUserId');
-    $router->post('/addMessageToConversation/{id}', 'ChatController@addMessageToConversation');
-    $router->get('/getAllConversation', 'ChatController@getAllConversation');
+    $router->get('/conversation/{id}', 'ChatController@getConversationByUserId');
+    $router->post('/message/{id}', 'ChatController@addMessageToConversation');
+    $router->get('/conversation', 'ChatController@getAllConversation');
 
     // auth route
-    $router->post('/loginMember', 'AuthController@loginMember');
-    $router->post('/loginAdmin', 'AuthController@loginAdmin');
+    $router->post('/login/member', 'AuthController@loginMember');
+    $router->post('/login/admin', 'AuthController@loginAdmin');
 });

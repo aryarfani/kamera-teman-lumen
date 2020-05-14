@@ -27,6 +27,15 @@ class MemberController extends Controller
     //* Fungsi menambah data
     public function create(Request $request)
     {
+        $this->validate($request, [
+            'nama' => 'required',
+            'email' => 'required',
+            'alamat' => 'required',
+            'phone' => 'required',
+            'gambar' => 'required',
+            'password' => 'required',
+        ]);
+
         $member = new Member();
         $member->nama = $request->nama;
         $member->email = $request->email;
@@ -34,16 +43,19 @@ class MemberController extends Controller
         $member->phone = $request->phone;
 
         $hashPwd = Hash::make($request->password);
-
         $member->password = $hashPwd;
-    
+
         if ($request->file('gambar')) {
             // Menambah gambar
             $image = $request->file('gambar');
 
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
-            $image->move(base_path('public/images'), $new_name);
-            $member->gambar = $new_name;
+            $image->move(base_path('public_html/images'), $new_name);
+
+            // save the location
+            $gambar = url('images') . '/' . $new_name;
+
+            $member->gambar = $gambar;
         }
 
         $member->save();
@@ -59,7 +71,9 @@ class MemberController extends Controller
         $member->alamat = $request->alamat;
         $member->email = $request->email;
         $member->phone = $request->phone;
-        $member->password = $request->password;
+
+        $hashPwd = Hash::make($request->password);
+        $member->password = $hashPwd;
 
         //* Jika gambar kosong maka query gambar
         //* menggunakan gambar_lama yg berisi gambar lama
@@ -68,11 +82,14 @@ class MemberController extends Controller
         } else {
             //* Jika ada query gambar maka akan diganti
             $image = $request->file('gambar');
-      
+
             $new_name = rand() . '.' . $image->getClientOriginalExtension();
             $image->move(base_path('public_html/images'), $new_name);
-      
-            $member->gambar = $new_name;
+
+            // save the location
+            $gambar = url('images') . '/' . $new_name;
+
+            $member->gambar = $gambar;
         }
 
         $member->save();
@@ -128,18 +145,6 @@ class MemberController extends Controller
     }
 
     //! Get
-    //* Fungsi menghitung jumlah barang di keranjang
-    // parameter id
-    // return 200 if error 500
-    public function jumlahBarangKeranjang($id)
-    {
-        $member = Member::find($id);
-        $barangs = $member->keranjang;
-
-        return response()->json($barangs->count());
-    }
-
-    //! Get
     //* Fungsi menghitung jumlah harga di keranjang
     // parameter id
     // return 200 if error 500
@@ -147,7 +152,7 @@ class MemberController extends Controller
     {
         $member = Member::find($id);
         $harga = $member->keranjang->sum('harga');
- 
+
         return response()->json($harga);
     }
 
@@ -172,7 +177,7 @@ class MemberController extends Controller
         DB::table('riwayats')->where('member_id', '=', $id)->update(array(
             'durasi' =>  $durasi,
         ));
-      
+
         return response()->json($member->keranjang);
     }
 
@@ -187,7 +192,7 @@ class MemberController extends Controller
 
         return $riwayat;
     }
-    
+
     //! Get
     //* Fungsi mengambil barang = barang di keranjang berstatus 0 = uncofirmed
     // parameter id
@@ -199,7 +204,7 @@ class MemberController extends Controller
 
         return $riwayat;
     }
-  
+
     //! Get
     //* Fungsi mengambil barang = barang di keranjang berstatus 1 = borrowed
     // parameter id
@@ -211,7 +216,7 @@ class MemberController extends Controller
 
         return $riwayat;
     }
-    
+
     //! Get
     //* Fungsi mengambil barang = barang di keranjang berstatus 1 = borrowed
     // parameter id

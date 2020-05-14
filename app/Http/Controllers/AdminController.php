@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Admin;
-use Illuminate\Auth\Access\Response;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
 
 class AdminController extends Controller
 {
@@ -25,19 +25,37 @@ class AdminController extends Controller
   //* Fungsi menambah data
   public function create(Request $request)
   {
+    $this->validate($request, [
+      'nama' => 'required',
+      'email' => 'required',
+      'alamat' => 'required',
+      'phone' => 'required',
+      'gambar' => 'required',
+      'password' => 'required',
+    ]);
+
     // Menambah gambar
     $image = $request->file('gambar');
 
+    // get file new name
     $new_name = rand() . '.' . $image->getClientOriginalExtension();
-    $image->move(base_path('public/images'), $new_name);
+
+    // move file to location
+    $image->move(base_path('public_html/images'), $new_name);
+
+    // save the location
+    $gambar = url('images') . '/' . $new_name;
+
+    $hashPwd = Hash::make($request->password);
 
     $admin = new Admin();
     $admin->nama = $request->nama;
     $admin->alamat = $request->alamat;
     $admin->email = $request->email;
     $admin->phone = $request->phone;
-    $admin->password = $request->password;
-    $admin->gambar = $new_name;
+    $admin->password = $hashPwd;
+
+    $admin->gambar = $gambar;
     $admin->save();
 
     return response()->json($admin);
@@ -46,12 +64,15 @@ class AdminController extends Controller
   //* Fungsi mengupdate data
   public function update(Request $request, $id)
   {
+
+    $hashPwd = Hash::make($request->password);
+
     $admin = Admin::findOrFail($id);
     $admin->nama = $request->nama;
     $admin->alamat = $request->alamat;
     $admin->email = $request->email;
     $admin->phone = $request->phone;
-    $admin->password = $request->password;
+    $admin->password = $hashPwd;
 
     // * Jika gambar kosong maka query gambar
     // * menggunakan gambar_lama yg berisi gambar lama
@@ -60,10 +81,10 @@ class AdminController extends Controller
     } else {
       //* Jika ada query gambar maka akan diganti
       $image = $request->file('gambar');
-      
+
       $new_name = rand() . '.' . $image->getClientOriginalExtension();
       $image->move(base_path('public_html/images'), $new_name);
-      
+
       $admin->gambar = $new_name;
     }
 
@@ -82,5 +103,4 @@ class AdminController extends Controller
       return response()->json($admin);
     }
   }
-
 }
